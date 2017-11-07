@@ -1,2 +1,3 @@
 #Ignore the sanbox folder
 sandbox/*
+*/.ipynb_checkpoints
