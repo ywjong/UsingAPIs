@@ -81,9 +81,97 @@ With some editing you could shape this data into a table which you could import 
 
 Python allows us to programmatically extract data from web services such as the above NWIS and BISON examples using its `requests `module. This module works similarly to the `urllib` module (in fact it is built on top of it), bit it also includes a few features that facilitate using web services and APIs. 
 
-I've created a few notebooks demonstrating these concepts
+I've created a few notebooks demonstrating these concepts. These are found in the `notebooks` folder. 
 
-* `11-NWIS-discharge-data-as-API.ipynb` - 
-* `12-Exploring-the-BISON-API`
-* ​
+* `1-NWIS-discharge-data-as-API.ipynb` - This reveals a cleaner way to access the NWIS data, this time as a Web Service vs just an URL. When you've finished examining this example, have a look at the ArcMap document in the zipped Discharge workspace in this repository. It demonstrates how this can be used programmatically to display data in ArcMap. 
 
+  ​
+
+* `2-Exploring-the-BISON-API` - This explores a more formally presented API, i.e., the USGS's Biodiversity 
+
+
+Information Serving Our Nation, or "BISON", API. This web service is a touch more complex than the NWIS service, but it is also more powerful. 
+
+
+
+---
+
+
+
+## Part 2. RESTful Web Services
+
+The procedure of sending requests from client to server via URLs or web addresses actually has a formal name: **Re**presentational **S**tate **T**ransfer, or **REST**. While fancier attempts to convey information and objects across the web using HTTP have been used (e.g. SOAP and WSDL), REST’s approach of using simple text – sometimes taking the form of complex, but parse-able XML or JSON objects – has proven both simple and effective. 
+
+- [ ] If you are curious, an excellent non-technical description of what REST is provided here: http://duke.edu/~jpfay/REST.html*. But really it’s just what we’ve been doing: sending commands to a server via a URL. 
+
+      *this is a pilfer from Ryan Tomyko’s original post found [here](http://2ndscale.com/rtomayko/2004/rest-to-my-wife); please note why he took his original post down…
+
+ESRI has fully embraced REST as a format for interacting with ArcGIS based web services and over the past few years (and versions of ArcGIS) has integrated more and more cloud-based technology into their software – much of it using REST-based we services. 
+
+Let’s examine how these resources are put to use…
+
+
+
+### ESRI REST-based web services
+
+First, when searching for some on-line data or at some other point surfing the web you may have come across a web site that looks like this one: http://sampleserver1.arcgisonline.com/ArcGIS/rest/services. More and more of these sites are popping up. Here are just a few:
+
+- http://services.nationalmap.gov/ArcGIS/rest/services
+- http://gis.srh.noaa.gov/arcgis/rest/services
+- http://tigerweb.geo.census.gov/arcgis/rest/services
+
+What are all these sites?? Well, they are the end points to a vast amount of spatially enabled web services hosted using ESRI’s ArcGIS Server or its ArcGIS online technologies, and we can access these services using the REST interface. 
+
+#### Exploring ESRI based web services
+
+Let’s take a look at an example using a service I’ve created on a server hosted here in the Nicholas School: 
+https://ns-win2012test.win.duke.edu/arcgis/rest/services
+
+The services are organized as a series of folders. Click on the ENV859 folder and you’ll see few services available: 1 map servers and 2 geoprocessing server. The map servers serve data and the GPServers serve geoprocessing functionality. 
+
+Click on the Discharge map server and you’ll see properties for this service. What I like to do first when investigating a map service is to look at the data. The fastest way to see the data is to click on the “View In: ArcGIS JavaScript” link. This opens a new window displaying the data using ArcGIS’s JavaScript API – an alternative to the Google Maps API (more info on that here).
+
+This map service only serves one data layer: North Carolina HUCs, but it could provide many (e.g: 
+https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/tigerWMS_Census2010/MapServer).
+
+At the bottom of the map service page is a list of the supported operations on the service. Click the Export Map link. This is a (slightly clumsy) interface to build a custom request on these features. If you enter values into the blanks then hit “Export Map Image (GET)” it will send the request to the server using those parameters. It will also create the URL used to format that request. 
+
+Try filling out the form like this (below) and the click “Export Map Image (GET)”
+(the coordinates are -79.3, 35, -77.9, 36.5)
+
+![arcgis_export_dialog](docs/arcgis_export_dialog.png)
+
+You’ll see an image zoomed to the Upper Neuse HUC. Also, in
+the URL of the page created contains the REST format request, which can be
+broken down as this:
+
+```
+https://ns-win2012test.win.duke.edu/
+arcgis/rest/services/ENV859/Discharge/MapServer/export
+?bbox=-79.3%2C+35%2C+-77.9%2C+36.5
+&bboxSR=4269
+&layers=
+&layerDefs=
+&size=
+&imageSR=
+&format=png
+&transparent=false
+&dpi=
+&time=
+&layerTimeOptions=
+&dynamicLayers=
+&gdbVersion=
+&mapScale=
+&f=html 
+```
+
+This URL is what we can manipulate to modify our request programmatically. To see what each of these parameters do, we consult the documentation on the ArcGIS Map Server REST API for the Export Map operation:
+ http://resources.arcgis.com/en/help/arcgis-rest-api/index.html#/Export_Map/02r3000000v7000000/ 
+
+Try editing the URL so that the output format is KMZ (change the last bit from &f=html to &f=KMZ -- <link>). You’ll see that it returns a Google Earth KMZ file. 
+
+Try tweaking the URL so the output is in an image format (“&f=image”). It produces get a PNG format image of the layer clipped to the bound supplied in the bounding box. 
+
+Lastly, for Layer Definitions enter: 0:HUC_NAME = 'Upper Neuse'. This instructs the server to, for the first layer (at index = 0), select features where the HUC_NAME = ‘Upper Neuse’ and only generate output for those features. 
+
+In short, we have quite a powerful interface to spatial data. Time permitting, we will examine some interesting uses for these REST based services. Also, the document Tutorial 5.4 ESRI Services in GoogleMaps.pdf (on Sakai) demonstrates how these services can be incorporated into Google Maps. 
