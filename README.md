@@ -175,3 +175,4 @@ Try tweaking the URL so the output is in an image format (“&f=image”). It pr
 Lastly, for Layer Definitions enter: 0:HUC_NAME = 'Upper Neuse'. This instructs the server to, for the first layer (at index = 0), select features where the HUC_NAME = ‘Upper Neuse’ and only generate output for those features. 
 
 In short, we have quite a powerful interface to spatial data. Time permitting, we will examine some interesting uses for these REST based services. Also, the document Tutorial 5.4 ESRI Services in GoogleMaps.pdf (on Sakai) demonstrates how these services can be incorporated into Google Maps. 
+
