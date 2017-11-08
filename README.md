@@ -1,8 +1,10 @@
 ---
-Title: "Web Services and APIs"
-Author: "John Fay"
-Date: "Fall 2017"
+Title: Web Services and APIs
+Author: John Fay
+Date: Fall 2017
 ---
+
+[TOC]
 
 # Using APIs
 
@@ -139,7 +141,7 @@ At the bottom of the map service page is a list of the supported operations on t
 Try filling out the form like this (below) and the click “Export Map Image (GET)”
 (the coordinates are -79.3, 35, -77.9, 36.5)
 
-![arcgis_export_dialog](docs/arcgis_export_dialog.png)
+![arcgis_export_dialog](https://env859.github.io/UsingAPIs/arcgis_export_dialog.png)
 
 You’ll see an image zoomed to the Upper Neuse HUC. Also, in
 the URL of the page created contains the REST format request, which can be
@@ -176,3 +178,21 @@ Lastly, for Layer Definitions enter: 0:HUC_NAME = 'Upper Neuse'. This instructs 
 
 In short, we have quite a powerful interface to spatial data. Time permitting, we will examine some interesting uses for these REST based services. Also, the document Tutorial 5.4 ESRI Services in GoogleMaps.pdf (on Sakai) demonstrates how these services can be incorporated into Google Maps. 
 
+
+
+### REST Web-Services that *process* data
+
+Web services and API can process data as well as return data. A good example of this are Geocoding services: you provide an address, and the server returns the coordinates of that address. Open Street Map provides one such geocoding web service, and to capitalize on it, you again simply need to figure out how to construct the request and handle the response. The documentation for this API is provided here: 
+http://wiki.openstreetmap.org/wiki/Nominatim
+
+#### Geocoding with the OpenStreetMap (OSM) Geocoder
+
+<--See the Geocoding-with-OSM Jupyter notebook-->
+
+
+
+## Recap & what's next
+
+Knowing Python has opened many doors for accessing and analyzing data. The built-in Python data types  - numbers, strings, lists, dictionaries, etc - and functions - loops, flow control, etc. - provide ample flexibility to get things done with scripts. Adding 3rd party packages to our base installation can vastly simplify and expand what we can do with our Python foundation, and beyond that, we see that there's a world of web services and APIs that extends our abilities much, much further!
+
+Up next, we'll concentrate on what to do with all these data: how to manage large datasets in Python (with Numpy, Pandas, and Geopandas), and also how to communicate with these data with more Python packages (matplotlib, seaborn, and gglot) as well as more APIs (leaflet/folium, google maps). And finally we'll examine frameworks for putting all these components together to assemble some handy interactive apps with plotly, dash, and r-shiny!
