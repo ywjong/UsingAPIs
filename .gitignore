@@ -1,3 +1,5 @@
-#Ignore the sanbox folder
-sandbox/*
+#Ignore these:
+notebooks2/*
+discharge/*
+*.lnk
 */.ipynb_checkpoints
