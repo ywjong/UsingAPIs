@@ -1,5 +1,6 @@
 #Ignore these:
-notebooks2/*
+ArcGIS_API/*
 discharge/*
-*.lnk
-*/.ipynb_checkpoints
+Geopandas/*
+
+.ipynb_checkpoints
